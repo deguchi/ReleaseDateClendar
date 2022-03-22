@@ -75,12 +75,21 @@
           })
         </script>
 
+        <h3>TAURI API</h3>
+
         <button id="anotherWindow">別ウィンドウを開く</button>
         <script>
           document.getElementById('anotherWindow').addEventListener('click', () => {
             const webview = new window.__TAURI__.window.WebviewWindow('theUniqueLabel', {
               url: 'https://github.com/tauri-apps/tauri'
             })
+            window.__TAURI__.shell.open('https://tauri.studio/docs/api/js/classes/window.webviewwindow/')
+          })
+        </script>
+        <button id="defaultAnotherWindow">デフォルトブラウザで別ウィンドウを開く</button>
+        <script>
+          document.getElementById('defaultAnotherWindow').addEventListener('click', () => {
+            window.__TAURI__.shell.open('https://tauri.studio/docs/api/js/modules/shell')
           })
         </script>
       </div>
