@@ -81,9 +81,8 @@
         <script>
           document.getElementById('anotherWindow').addEventListener('click', () => {
             const webview = new window.__TAURI__.window.WebviewWindow('theUniqueLabel', {
-              url: 'https://github.com/tauri-apps/tauri'
+              url: 'https://tauri.studio/docs/api/js/classes/window.webviewwindow/'
             })
-            window.__TAURI__.shell.open('https://tauri.studio/docs/api/js/classes/window.webviewwindow/')
           })
         </script>
         <button id="defaultAnotherWindow">デフォルトブラウザで別ウィンドウを開く</button>
