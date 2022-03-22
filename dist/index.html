@@ -91,6 +91,17 @@
             window.__TAURI__.shell.open('https://tauri.studio/docs/api/js/modules/shell')
           })
         </script>
+        <button id="notification">通知を送る</button>
+        <script>
+          document.getElementById('notification').addEventListener('click', () => {
+            const notification = window.__TAURI__.notification
+            if (notification.Permission === 'granted') {
+              notification.requestPermission()
+            } else {
+              notification.sendNotification('Hello Tauri!')
+            }
+          })
+        </script>
       </div>
       <iframe src="" frameborder="0" src=""></iframe>
     </div>
