@@ -1,0 +1,13 @@
+{
+  "name": "ReleaseDateClendar",
+  "scripts": {
+    "start": "npm run tauri dev",
+    "tauri": "tauri"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "^1.0.0-rc.2"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^1.0.0-rc.7"
+  }
+}
