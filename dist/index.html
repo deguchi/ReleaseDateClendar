@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+  <body>
+    <h3>Counter</h3>
+    <div>
+      <button id="increment-btn">Increment counter</button>
+    </div>
+    <div id="response"></div>
+
+    <script>
+      const KEY = 'db-key'
+      const incrementBtn = document.querySelector('#increment-btn')
+      const responseContainer = document.querySelector('#response')
+
+      function updateResponse(response) {
+        responseContainer.innerText =
+          typeof response === 'string' ? response : JSON.stringify(response)
+      }
+
+      incrementBtn.addEventListener('click', () => {
+        window.__TAURI_INVOKE__('increment_counter')
+          .then(updateResponse)
+          .catch(updateResponse)
+      })
+    </script>
+  </body>
+</html>

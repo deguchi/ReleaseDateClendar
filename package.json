@@ -2,6 +2,7 @@
   "name": "ReleaseDateClendar",
   "scripts": {
     "start": "npm run tauri dev",
+    "build": "npm run tauri build",
     "tauri": "tauri"
   },
   "dependencies": {
