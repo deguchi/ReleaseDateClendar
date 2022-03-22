@@ -1,9 +1,15 @@
 <!DOCTYPE html>
 <html lang="ja">
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+JP&amp;display=swap">
+  <style>
+    *{box-sizing:border-box;}html,body{width:100%;height:100%;font-family:"Hiragino Kaku Gothic Pro","ヒラギノ角ゴ Pro W3","Noto Sans JP","ＭＳ Ｐゴシック","Helvetica Neue","Helvetica","Arial",sans-serif}a{color:#eaba07;text-decoration:none}#app{padding-bottom:3rem}#app>p{text-align:center;margin:3rem 0}#app .month{display:flex;justify-content:center;align-items:center;color:#fff;background-color:#eaba07;border-radius:50px;height:6rem;width:6rem;margin:2rem auto}#app .month .number{font-size:2rem;font-weight:bold}#app .month .tsuki{font-size:1rem}#app .book{display:grid;grid-template-columns:70px 1fr 80px;column-gap:5%;padding-top:1rem;margin-bottom:1rem;min-height:160px;border-top:1px solid #ccc}#app .book .date{display:flex;justify-content:flex-end}#app .book .date .day{font-size:1.8rem;font-weight:bold}#app .book .date .weekDay{position:relative;top:1.25rem;display:flex;justify-content:center;align-items:center;width:1rem;height:1rem;background-color:#999;border-radius:50px;color:#fff;font-size:.5rem}#app .book .bib .nowOnSale{width:4rem;text-align:center;padding:2px 5px;margin-bottom:.5rem;color:#fff;background-color:#eaba07}#app .book .bib .todayOnSale{width:6rem;text-align:center;padding:2px 5px;margin-bottom:.5rem;color:#fff;background-color:#e60012}#app .book .bib .nearOnSale{width:7rem;text-align:center;padding:2px 5px;margin-bottom:.5rem;color:#fff;background-color:#00a7ed}#app .book .bib .title a{color:#000;font-weight:bold}#app .book .bib .title a:visited{color:purple}#app .book .bib .author a{color:#000;font-size:.8rem}#app .book .bib .author a:visited{color:purple}#app .book .bib button{cursor:pointer;color:#eaba07;border:1px solid #eaba07;border-radius:4px;background-color:#fff;margin-top:1.5rem;padding:.25rem .5rem}#app .book>a img{display:block;width:70px;object-fit:contain}
+  </style>
   <style>
     html,
     body {
+      font-family:"Hiragino Kaku Gothic Pro","ヒラギノ角ゴ Pro W3","Noto Sans JP","ＭＳ Ｐゴシック","Helvetica Neue","Helvetica","Arial",sans-serif;
       margin: 0;
       padding: 0;
       width: 100%;
@@ -15,7 +21,7 @@
       * {
         box-sizing: border-box;
       }
-      #app  {
+      #tauri {
         width: 100%;
         height: 100%;
         display: flex;
@@ -23,28 +29,26 @@
         align-items: flex-start;
         justify-content: center;
       }
-      #app > div {
+      #tauri #ui {
         width: 300px;
         height: 100%;
         padding: 1rem;
-        border-right: 1px solid #CCCCCC;
       }
-      #app textarea {
+      #tauri textarea {
         height: 16rem;
         font-family: monospace;
         font-size: 14px;
         padding: 10px;
         background: #fafafa;
       }
-      #app iframe {
+      #app {
         width: calc(100% - 300px);
-        height: 100%;
-        border: none;
+        border-left: 1px solid #CCCCCC;
       }
     </style>
 
-    <div id="app">
-      <div>
+    <div id="tauri">
+      <div id="ui">
         <h1>発売日カレンダー</h1>
         <h4>キーワード</h4>
         <textarea name="" id="" cols="30" rows="10" placeholder="本の検索キーワードを入れてください"></textarea>
@@ -81,14 +85,14 @@
         <script>
           document.getElementById('anotherWindow').addEventListener('click', () => {
             const webview = new window.__TAURI__.window.WebviewWindow('theUniqueLabel', {
-              url: 'https://tauri.studio/docs/api/js/classes/window.webviewwindow/'
+              url: 'mailto:deguchik@gmail.com'
             })
           })
         </script>
         <button id="defaultAnotherWindow">デフォルトブラウザで別ウィンドウを開く</button>
         <script>
           document.getElementById('defaultAnotherWindow').addEventListener('click', () => {
-            window.__TAURI__.shell.open('https://tauri.studio/docs/api/js/modules/shell')
+            window.__TAURI__.shell.open('mailto:deguchik@gmail.com')
           })
         </script>
         <button id="notification">通知を送る</button>
@@ -103,22 +107,23 @@
           })
         </script>
       </div>
-      <iframe src="" frameborder="0" src=""></iframe>
+      <div id="app"></div>
     </div>
 
     <script>
       const STORAGE_KEY = 'ReleaseCalendarKeywords'
       window.addEventListener('DOMContentLoaded', (event) => {
-        const iframe = document.querySelector('#app iframe')
-        const textarea = document.querySelector('#app textarea')
-        const button = document.querySelector('#app button')
+        const iframe = document.querySelector('#tauri iframe')
+        const textarea = document.querySelector('#tauri textarea')
+        const button = document.querySelector('#tauri button')
         const savedKeywords = localStorage.getItem(STORAGE_KEY)
         if (savedKeywords) {
           textarea.value = savedKeywords
         } else {
-          textarea.value = '偕成社\n講談社\n角川'
+          textarea.value = '集英社\n講談社\n角川'
         }
         const update = (event) => {
+          const iframe = document.querySelector('#tauri iframe')
           let url = 'https://deguchi.github.io/bookCalendar/?title='
           let keywords = textarea.value
           if (keywords.match(/\n$/)) keywords = keywords.slice(0, -1)
@@ -126,15 +131,15 @@
           keywords.split('\n').forEach((keyword) => {
             ks.push(encodeURIComponent(keyword))
           })
-          iframe.src = url + ks.join('|')
+          location.href = location.hostname + location.pathname + '?title=' + ks.join('|')
         }
         button.addEventListener('click', () => {
           update()
           localStorage.setItem(STORAGE_KEY, textarea.value)
         })
-        update()
+        if (location.search==='') update()
       });
     </script>
-
+    <script src="https://deguchi.github.io/bookCalendar/index.js"></script>
   </body>
 </html>
