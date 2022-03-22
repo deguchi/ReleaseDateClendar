@@ -3,9 +3,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+JP&amp;display=swap">
-  <style>
-    *{box-sizing:border-box;}html,body{width:100%;height:100%;font-family:"Hiragino Kaku Gothic Pro","ヒラギノ角ゴ Pro W3","Noto Sans JP","ＭＳ Ｐゴシック","Helvetica Neue","Helvetica","Arial",sans-serif}a{color:#eaba07;text-decoration:none}#app{padding-bottom:3rem}#app>p{text-align:center;margin:3rem 0}#app .month{display:flex;justify-content:center;align-items:center;color:#fff;background-color:#eaba07;border-radius:50px;height:6rem;width:6rem;margin:2rem auto}#app .month .number{font-size:2rem;font-weight:bold}#app .month .tsuki{font-size:1rem}#app .book{display:grid;grid-template-columns:70px 1fr 80px;column-gap:5%;padding-top:1rem;margin-bottom:1rem;min-height:160px;border-top:1px solid #ccc}#app .book .date{display:flex;justify-content:flex-end}#app .book .date .day{font-size:1.8rem;font-weight:bold}#app .book .date .weekDay{position:relative;top:1.25rem;display:flex;justify-content:center;align-items:center;width:1rem;height:1rem;background-color:#999;border-radius:50px;color:#fff;font-size:.5rem}#app .book .bib .nowOnSale{width:4rem;text-align:center;padding:2px 5px;margin-bottom:.5rem;color:#fff;background-color:#eaba07}#app .book .bib .todayOnSale{width:6rem;text-align:center;padding:2px 5px;margin-bottom:.5rem;color:#fff;background-color:#e60012}#app .book .bib .nearOnSale{width:7rem;text-align:center;padding:2px 5px;margin-bottom:.5rem;color:#fff;background-color:#00a7ed}#app .book .bib .title a{color:#000;font-weight:bold}#app .book .bib .title a:visited{color:purple}#app .book .bib .author a{color:#000;font-size:.8rem}#app .book .bib .author a:visited{color:purple}#app .book .bib button{cursor:pointer;color:#eaba07;border:1px solid #eaba07;border-radius:4px;background-color:#fff;margin-top:1.5rem;padding:.25rem .5rem}#app .book>a img{display:block;width:70px;object-fit:contain}
-  </style>
+  <link rel="stylesheet" href="https://deguchi.github.io/bookCalendar/index.css?2">
   <style>
     html,
     body {
@@ -21,6 +19,9 @@
       * {
         box-sizing: border-box;
       }
+      button {
+        padding: 0.25rem;
+      }
       #tauri {
         width: 100%;
         height: 100%;
@@ -30,6 +31,9 @@
         justify-content: center;
       }
       #tauri #ui {
+        position: fixed;
+        top: 0;
+        left: 0;
         width: 300px;
         height: 100%;
         padding: 1rem;
@@ -42,6 +46,9 @@
         background: #fafafa;
       }
       #app {
+        position: absolute;
+        top: 0;
+        left: 300px;
         width: calc(100% - 300px);
         border-left: 1px solid #CCCCCC;
       }
@@ -85,14 +92,14 @@
         <script>
           document.getElementById('anotherWindow').addEventListener('click', () => {
             const webview = new window.__TAURI__.window.WebviewWindow('theUniqueLabel', {
-              url: 'mailto:deguchik@gmail.com'
+              url: 'https://tauri.studio/docs/api/js/classes/window.webviewwindow/'
             })
           })
         </script>
         <button id="defaultAnotherWindow">デフォルトブラウザで別ウィンドウを開く</button>
         <script>
           document.getElementById('defaultAnotherWindow').addEventListener('click', () => {
-            window.__TAURI__.shell.open('mailto:deguchik@gmail.com')
+            window.__TAURI__.shell.open('https://tauri.studio/docs/api/js/modules/shell')
           })
         </script>
         <button id="notification">通知を送る</button>
@@ -120,7 +127,7 @@
         if (savedKeywords) {
           textarea.value = savedKeywords
         } else {
-          textarea.value = '集英社\n講談社\n角川'
+          textarea.value = '京都\n図書館\nRust'
         }
         const update = (event) => {
           const iframe = document.querySelector('#tauri iframe')
@@ -138,6 +145,7 @@
           localStorage.setItem(STORAGE_KEY, textarea.value)
         })
         if (location.search==='') update()
+        // update()
       });
     </script>
     <script src="https://deguchi.github.io/bookCalendar/index.js"></script>
