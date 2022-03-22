@@ -9,3 +9,7 @@
 npm install
 npm start
 ```
+
+## リリース
+
+GitHub上でリリースを切るとGitHub Actionsでビルドされる
