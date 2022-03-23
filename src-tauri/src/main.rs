@@ -9,7 +9,7 @@ use std::{
   sync::{
     atomic::{AtomicUsize, Ordering},
     Mutex,
-  },
+  }, array,
 };
 
 use tauri::State;
@@ -53,9 +53,10 @@ fn increment_counter(counter: State<'_, Counter>) -> usize {
 }
 
 #[tauri::command]
-fn json_response(invokeMessage: String) -> String {
+fn json_response(invokeMessage: String) -> [char; 2] {
   println!("I was invoked from JS, with this message: {}", invokeMessage);
-  invokeMessage.into()
+  let xs: [char; 2] = ['1', '2'];
+  xs
 }
 
 fn main() {
