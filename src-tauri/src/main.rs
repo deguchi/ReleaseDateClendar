@@ -3,6 +3,8 @@
   windows_subsystem = "windows"
 )]
 
+use serde::{Serialize, Deserialize};
+
 use std::{
   sync::{
     atomic::{AtomicUsize, Ordering},
@@ -50,12 +52,19 @@ fn increment_counter(counter: State<'_, Counter>) -> usize {
   counter.0.fetch_add(1, Ordering::Relaxed) + 1
 }
 
+#[tauri::command]
+fn json_response(invokeMessage: String) -> String {
+  println!("I was invoked from JS, with this message: {}", invokeMessage);
+  invokeMessage.into()
+}
+
 fn main() {
   tauri::Builder::default()
     .manage(Counter(AtomicUsize::new(0)))
     .manage(Connection(Default::default()))
     .invoke_handler(tauri::generate_handler![
       increment_counter,
+      json_response,
       connect,
       disconnect,
       connection_send

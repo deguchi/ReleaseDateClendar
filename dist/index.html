@@ -113,6 +113,15 @@
             }
           })
         </script>
+
+        <script>
+          window.addEventListener('DOMContentLoaded', (event) => {
+            window.__TAURI_INVOKE__('json_response', { invokeMessage: 'Hello!' })
+                .then(console.log)
+                .catch(console.log)
+          })
+        </script>
+
       </div>
       <div id="app"></div>
     </div>
